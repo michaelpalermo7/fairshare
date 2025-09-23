@@ -53,6 +53,9 @@ public class Group {
     public void setGroupName(String groupName) { this.groupName = groupName; }
 
     public Instant getGroupCreatedAt() { return groupCreatedAt; }
+    public void setGroupCreatedAt(Instant groupCreatedAt){
+        this.groupCreatedAt = groupCreatedAt;
+    }
 
     public Set<Membership> getGroupMemberships() {
         return groupMemberships;
