@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,7 +22,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
-
 
 @Entity
 @Table(name = "expenses")
@@ -39,7 +40,9 @@ public class Expense {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
-    public enum CurrencyCode { CAD, USD, EUR }
+    public enum CurrencyCode {
+        CAD, USD
+    }
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -53,11 +56,11 @@ public class Expense {
     @Column(name = "occurred_at", nullable = false, columnDefinition = "timestamptz")
     private Instant occurredAt;
 
-    @NotNull
-    @Column(name="created_at",nullable = false, insertable = false, updatable = false)
-    private Instant createdAt; 
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
-    /* ==== relationships= ====  */
+    /* ==== relationships= ==== */
 
     // many-to-one: expenses -> groups
     @NotNull
@@ -71,34 +74,73 @@ public class Expense {
     @JoinColumn(name = "payer_id", nullable = false)
     private User payer;
 
-    //one to many - expenses to expense share
+    // one to many - expenses to expense share
     @OneToMany(mappedBy = "expense", fetch = FetchType.LAZY)
     private final Set<ExpenseShare> shares = new HashSet<>();
 
     /* ==== getters and setters ==== */
-    public Long getExpenseId() { return expenseId; }
-    public void setExpenseId(Long expenseId) { this.expenseId = expenseId; }
+    public Long getExpenseId() {
+        return expenseId;
+    }
 
-    public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
+    }
 
-    public CurrencyCode getCurrency() { return currency; }
-    public void setCurrency(CurrencyCode currency) { this.currency = currency; }
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-    public Instant getOccurredAt() { return occurredAt; }
-    public void setOccurredAt(Instant occurredAt) { this.occurredAt = occurredAt; }
+    public CurrencyCode getCurrency() {
+        return currency;
+    }
 
-    public Instant getCreatedAt() { return createdAt; }
+    public void setCurrency(CurrencyCode currency) {
+        this.currency = currency;
+    }
 
-    public Group getGroup() { return group; }
-    public void setGroup(Group group) { this.group = group; }
+    public String getDescription() {
+        return description;
+    }
 
-    public User getPayer() { return payer; }
-    public void setPayer(User payer) { this.payer = payer; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public Set<ExpenseShare> getShares() { return shares; }
+    public Instant getOccurredAt() {
+        return occurredAt;
+    }
+
+    public void setOccurredAt(Instant occurredAt) {
+        this.occurredAt = occurredAt;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public User getPayer() {
+        return payer;
+    }
+
+    public void setPayer(User payer) {
+        this.payer = payer;
+    }
+
+    public Set<ExpenseShare> getShares() {
+        return shares;
+    }
 
 }

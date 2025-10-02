@@ -10,4 +10,8 @@ public class FairshareApplication {
 		SpringApplication.run(FairshareApplication.class, args);
 	}
 
+	/*
+	 * Name idea: Splitto
+	 */
+
 }

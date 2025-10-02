@@ -16,5 +16,7 @@ public interface MembershipRepository extends JpaRepository<Membership, Long> {
     long countByGroup_GroupIdAndRole(Long groupId, Role admin);
     List<Membership> findByGroup_GroupId(Long groupId);
 
+    boolean existsByUser_UserIdAndGroup_GroupId(Long payerId, Long groupId);
+
 }
 

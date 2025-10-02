@@ -2,6 +2,8 @@ package com.fairshare.fairshare.entity;
 
 import java.time.Instant;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,18 +18,19 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="memberships",uniqueConstraints = @UniqueConstraint(name = "uq_membership_user_group", columnNames = {"user_id", "group_id"}))
+@Table(name = "membership", uniqueConstraints = @UniqueConstraint(name = "uq_membership_user_group", columnNames = {
+        "user_id", "group_id" }))
 public class Membership {
 
     /* ==== attributes ==== */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="membership_id")
+    @Column(name = "membership_id")
     private Long membershipId;
 
-    @NotNull
-    @Column(name="joined_at", nullable = false, columnDefinition="timestamptz", insertable = false, updatable = false)
+    @CreationTimestamp
+    @Column(name = "joined_at", nullable = false, columnDefinition = "timestamptz")
     private Instant joinedAt;
 
     public enum Role {
@@ -41,32 +44,57 @@ public class Membership {
     private Role role = Role.MEMBER;
 
     /* ==== relationships ==== */
-    //many to one - memberships to user - fk userId
+    // many to one - memberships to user - fk userId
     @NotNull
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    //many to one - memberships to group - fk groupId
+    // many to one - memberships to group - fk groupId
     @NotNull
     @ManyToOne
-    @JoinColumn(name="group_id", nullable = false)
+    @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
     /* ==== getters and setters ==== */
-    public Long getMembershipId() { return membershipId; }
-    public void setMembershipId(Long membershipId) { this.membershipId = membershipId; }
+    public Long getMembershipId() {
+        return membershipId;
+    }
 
-    public Instant getJoinedAt() { return joinedAt; }
-    public void setJoinedAt(Instant joinedAt) { this.joinedAt = joinedAt; }
+    public void setMembershipId(Long membershipId) {
+        this.membershipId = membershipId;
+    }
 
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
+    public Instant getJoinedAt() {
+        return joinedAt;
+    }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public void setJoinedAt(Instant joinedAt) {
+        this.joinedAt = joinedAt;
+    }
 
-    public Group getGroup() { return group; }
-    public void setGroup(Group group) { this.group = group; }
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 
 }

@@ -21,16 +21,20 @@ import com.fairshare.fairshare.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-    
+
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
-    private UserService userService; 
+    private UserService userService;
 
-    /* test: user creation when email does not exist */
+    /**
+     * Test creating a user flow (email doesnt already exist)
+     * 
+     * @throws Exception
+     */
     @Test
-    void createUser_createsWhenEmailNotExists() {
+    void createUser_createsWhenEmailNotExists() throws Exception {
 
         String name = "Alice";
         String email = "alice@example.com";
@@ -41,7 +45,7 @@ public class UserServiceTest {
         saved.setUserId(1L);
         saved.setUserName(name);
         saved.setUserEmail(email);
-        
+
         when(userRepository.save(any(User.class))).thenReturn(saved);
 
         UserDTO result = userService.createUser(email, name);
@@ -52,9 +56,13 @@ public class UserServiceTest {
         verify(userRepository).save(any(User.class));
     }
 
-    /* test: user creation when email aleady exists */
+    /**
+     * Test creating a user when their email exists already
+     * 
+     * @throws Exception
+     */
     @Test
-    void createUser_throwsWhenEmailAlreadyExists() {
+    void createUser_throwsWhenEmailAlreadyExists() throws Exception {
         String name = "Alice";
         String email = "alice@example.com";
 
@@ -65,9 +73,7 @@ public class UserServiceTest {
 
         when(userRepository.findByUserEmail(email)).thenReturn(Optional.of(existing));
 
-        assertThrows(IllegalArgumentException.class, () ->
-        userService.createUser(email, name)
-    );
+        assertThrows(IllegalArgumentException.class, () -> userService.createUser(email, name));
 
         verify(userRepository, never()).save(any(User.class));
     }
