@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# IDE / system files
+.DS_Store
+.idea/
+.vscode/
+.lsp.cache/
+.clj-kondo/
+.lsp
+
+# Maven
+target/
+*.log
+
