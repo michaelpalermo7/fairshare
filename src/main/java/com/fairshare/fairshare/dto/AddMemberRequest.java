@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record AddMemberRequest(
-    @NotNull Long groupId,
-    @NotNull Long userId,
-    @NotBlank Role role
-){}
+        @NotNull Long userId,
+        @NotBlank Role role) {
+}
