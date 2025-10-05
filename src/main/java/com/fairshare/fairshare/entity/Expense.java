@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -75,7 +76,7 @@ public class Expense {
     private User payer;
 
     // one to many - expenses to expense share
-    @OneToMany(mappedBy = "expense", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "expense", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<ExpenseShare> shares = new HashSet<>();
 
     /* ==== getters and setters ==== */

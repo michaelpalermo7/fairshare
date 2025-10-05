@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,46 +15,59 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="groups")
+@Table(name = "groups")
 public class Group {
 
     /* ==== attributes ==== */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="group_id")
+    @Column(name = "group_id")
     private Long groupId;
 
-    @Column(name="group_name", nullable = false, length = 255)
+    @Column(name = "group_name", nullable = false, length = 255)
     private String groupName;
 
-    @Column(name="group_created_at", nullable = false, columnDefinition="timestamptz", insertable = false, updatable = false)
+    @Column(name = "group_created_at", nullable = false, columnDefinition = "timestamptz", insertable = false, updatable = false)
     private Instant groupCreatedAt;
 
     /* ==== relationships ==== */
-    
-    //one to many - group to memberships
-    @OneToMany(mappedBy="group", fetch=FetchType.LAZY)
+
+    // one to many - group to memberships
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Membership> groupMemberships = new HashSet<>();
 
-    //one to many - group to expenses
-    @OneToMany(mappedBy="group", fetch=FetchType.LAZY)
+    // one to many - group to expenses
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Expense> groupExpenses = new HashSet<>();
 
-    //one to many - group to settlements
-    @OneToMany(mappedBy="group", fetch=FetchType.LAZY)
+    // one to many - group to settlements
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Settlement> groupSettlements = new HashSet<>();
 
     /* ==== getters and setters ==== */
 
-    public Long getGroupId() { return groupId; }
-    public void setGroupId(Long groupId) { this.groupId = groupId; }
+    public Long getGroupId() {
+        return groupId;
+    }
 
-    public String getGroupName() { return groupName; }
-    public void setGroupName(String groupName) { this.groupName = groupName; }
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
-    public Instant getGroupCreatedAt() { return groupCreatedAt; }
-    public void setGroupCreatedAt(Instant groupCreatedAt){
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public Instant getGroupCreatedAt() {
+        return groupCreatedAt;
+    }
+
+    public void setGroupCreatedAt(Instant groupCreatedAt) {
         this.groupCreatedAt = groupCreatedAt;
     }
 
@@ -68,5 +82,5 @@ public class Group {
     public Set<Settlement> getGroupSettlements() {
         return groupSettlements;
     }
-    
+
 }
