@@ -8,22 +8,29 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
+
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Temurin JDK 17
+      - name: Setup Temurin JDK 17 (with Maven cache)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
           cache: maven
+          cache-dependency-path: backend/pom.xml
 
-      - name: Verify Docker
+      - name: Make mvnw executable (just in case)
+        run: chmod +x mvnw
+
+      - name: Verify Docker (for Testcontainers)
         run: docker version
 
       - name: Build & test (unit + integration)

@@ -1,45 +1,34 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# -------- General --------
+.DS_Store
+*.log
+.env
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# VS Code / IDE
+.vscode/
+.idea/
 *.iml
 *.ipr
+*.iws
+.sts4-cache
+.classpath
+.project
+.settings
+.factorypath
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-# IDE / system files
-.DS_Store
-.idea/
-.vscode/
+# Clojure/LSP caches (from earlier)
 .lsp.cache/
 .clj-kondo/
-.lsp
+.lsp/
 
-# Maven
-target/
-*.log
+# -------- Maven / Java (backend) --------
+backend/target/
+backend/build/
+
+# -------- Node/React (frontend, when added) --------
+frontend/node_modules/
+frontend/build/
+frontend/.vite/
+frontend/dist/
+
+# -------- Misc --------
+HELP.md

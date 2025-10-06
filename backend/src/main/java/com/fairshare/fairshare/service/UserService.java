@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fairshare.fairshare.dto.UserDTO;
 import com.fairshare.fairshare.entity.User;
-import com.fairshare.fairshare.repository.UserRepository;  // ✅
+import com.fairshare.fairshare.repository.UserRepository; // ✅
 
 @Service
 public class UserService {
-    
+
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -25,19 +25,19 @@ public class UserService {
      * creates a user
      * 
      * @param email unique email of user
-     * @param name name of user (duplicates allowed)
+     * @param name  name of user (duplicates allowed)
      * @return the user DTO
      */
     @Transactional
     public UserDTO createUser(String email, String name) {
 
-        if(userRepository.findByUserEmail(email).isPresent()){
+        if (userRepository.findByUserEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email already in use");
         }
 
-        /*TODO: Enforce stricter name conventions*/
+        /* TODO: Enforce stricter name conventions */
 
-        //create and save the user
+        // create and save the user
         User u = new User();
         u.setUserEmail(email);
         u.setUserName(name);
@@ -73,7 +73,7 @@ public class UserService {
      * @throws NotFoundException user not found
      */
     @Transactional
-    public User getUserById(Long userId) throws NotFoundException{
+    public User getUserById(Long userId) throws NotFoundException {
         Optional<User> found = userRepository.findById(userId);
 
         if (found.isEmpty()) {
@@ -83,7 +83,6 @@ public class UserService {
         return found.get();
     }
 
-    
     /**
      * Lists all users
      * 
@@ -110,12 +109,12 @@ public class UserService {
 
         User user = optionalUser.get();
 
-        //if user is already in the deleted at table
+        // if user is already in the deleted at table
         if (user.getDeletedAt() != null) {
             throw new IllegalStateException("User already deleted");
         }
 
-        //set deleted at table
+        // set deleted at table
         user.setDeletedAt(Instant.now());
         userRepository.save(user);
     }
