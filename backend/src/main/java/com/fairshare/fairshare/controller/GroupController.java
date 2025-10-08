@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.fairshare.fairshare.dto.GroupDTO;
 import com.fairshare.fairshare.dto.MembershipDTO;
 import com.fairshare.fairshare.service.GroupService;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/groups")
 public class GroupController {
@@ -60,5 +62,10 @@ public class GroupController {
     @GetMapping("/{id}/members")
     public List<MembershipDTO> listAllMembers(@PathVariable Long id) throws NotFoundException {
         return groupService.listAllMembers(id);
+    }
+
+    @GetMapping
+    public List<GroupDTO> listAllGroups() {
+        return groupService.listAllGroups();
     }
 }

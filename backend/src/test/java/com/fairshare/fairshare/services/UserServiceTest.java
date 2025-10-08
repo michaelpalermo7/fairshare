@@ -50,9 +50,9 @@ public class UserServiceTest {
 
         UserDTO result = userService.createUser(email, name);
 
-        assertEquals(1L, result.id());
-        assertEquals("Alice", result.name());
-        assertEquals("alice@example.com", result.email());
+        assertEquals(1L, result.userId());
+        assertEquals("Alice", result.userName());
+        assertEquals("alice@example.com", result.userEmail());
         verify(userRepository).save(any(User.class));
     }
 

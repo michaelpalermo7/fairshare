@@ -56,7 +56,7 @@ public class GroupService {
 
         membershipRepository.save(member);
 
-        return new GroupDTO(saved.getGroupId(), saved.getGroupName());
+        return new GroupDTO(saved.getGroupId(), saved.getGroupName(), saved.getGroupCreatedAt());
 
     }
 
@@ -188,7 +188,8 @@ public class GroupService {
 
         return new GroupDTO(
                 group.getGroupId(),
-                group.getGroupName());
+                group.getGroupName(),
+                group.getGroupCreatedAt());
     }
 
     /**
@@ -224,5 +225,20 @@ public class GroupService {
 
         var group = groupRepository.findById(groupId).orElseThrow(NotFoundException::new);
         groupRepository.delete(group);
+    }
+
+    /**
+     * Lists all groups in the system.
+     * 
+     * @return list of all groups as DTOs
+     */
+    @Transactional(readOnly = true)
+    public List<GroupDTO> listAllGroups() {
+        return groupRepository.findAll().stream()
+                .map(g -> new GroupDTO(
+                        g.getGroupId(),
+                        g.getGroupName(),
+                        g.getGroupCreatedAt()))
+                .toList();
     }
 }
